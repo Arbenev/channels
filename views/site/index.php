@@ -1,51 +1,40 @@
 <?php
 
+use yii\helpers\Html;
+
 /** @var yii\web\View $this */
 
-$this->title = 'My Yii Application';
+$this->title = 'Link repository';
 ?>
 <div class="site-index">
 
     <div class="jumbotron text-center bg-transparent mt-5 mb-5">
-        <h1 class="display-4">Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="https://www.yiiframework.com">Get started with Yii</a></p>
+        <h1 class="display-4"><?= $this->title ?></h1>
     </div>
 
     <div class="body-content">
 
         <div class="row">
             <div class="col-lg-4 mb-3">
-                <h2>Heading</h2>
+                <h2>Channels</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                <p>A repository of links to interesting channels.</p>
 
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+                <p><?= Html::a('Go ahead', ['channels/index'], ['class' => 'btn btn-outline-secondary', 'style' => 'margin-left:12px;']) ?></p>
             </div>
             <div class="col-lg-4 mb-3">
-                <h2>Heading</h2>
+                <h2>Articles</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                <p>A repository of links to interesting articles.</p>
 
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+                <p><?= Html::a('Go ahead', ['articles/index'], ['class' => 'btn btn-outline-secondary', 'style' => 'margin-left:12px;']) ?></p>
             </div>
             <div class="col-lg-4">
                 <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                <p>Tags</p>
 
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                <p><?= Html::a('Go ahead', ['tags/index'], ['class' => 'btn btn-outline-secondary', 'style' => 'margin-left:12px;']) ?></p>
             </div>
         </div>
 
