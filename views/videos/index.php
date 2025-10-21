@@ -9,7 +9,10 @@ $this->title = 'Видео';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="videos-index">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+        <?= Html::encode($this->title) ?>
+        <?= Html::a('Создать видео', ['create'], ['class' => 'btn btn-success', 'style' => 'margin-left:12px;']) ?>
+    </h1>
 
     <?php if (isset($dataProvider)) : ?>
         <?= GridView::widget([
