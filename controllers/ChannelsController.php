@@ -32,26 +32,23 @@ class ChannelsController extends Controller
             ];
         }
         $channels = $channelsToView;
-        return $this->render('index', [
-            'channels' => $channels,
+
+        // Подготовим модели и ArrayDataProvider (сортировка и пагинация)
+        $models = [];
+        foreach ($channels as $id => $ch) {
+            $models[] = array_merge(['id' => $id], $ch);
+        }
+
+        $dataProvider = new \yii\data\ArrayDataProvider([
+            'allModels' => $models,
+            'pagination' => ['pageSize' => 20],
+            'sort' => [
+                'attributes' => ['id', 'link', 'description'],
+            ],
         ]);
-    }
-    public function actionTags()
-    {
-        $queryTags = new Query();
-        $queryTags->select([
-            't.id',
-            't.name',
-            'COUNT(t.id) AS count',
-            ])
-            ->from(['t' => 'tag'])
-            ->innerJoin(['tc' => 'tag_channel'], 'tc.tag_id = t.id')
-            ->innerJoin(['c' => 'channel'], 'c.id = tc.channel_id')
-            ->groupBy(['t.id', 't.name'])
-            ->orderBy(['count' => SORT_DESC]);
-        $tags = $queryTags->all();
+
         return $this->render('index', [
-            'tags' => $tags,
+            'dataProvider' => $dataProvider,
         ]);
     }
 }

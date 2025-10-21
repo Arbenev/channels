@@ -46,6 +46,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'tags/<id:\\d+>' => 'tags/view',
             ],
         ],
     ],
