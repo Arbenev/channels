@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of tables for tags, channels, articles and pivot tables.
  */
-class m20251021_120000_create_initial_tables extends Migration
+class m251021_120000_create_initial_tables extends Migration
 {
     public function safeUp()
     {
