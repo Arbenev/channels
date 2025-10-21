@@ -1,7 +1,4 @@
 <?php
-/* @var $this yii\web\View */
-/* @var $tag array */
-/* @var $dataProvider \yii\data\ArrayDataProvider */
 
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -26,7 +23,9 @@ $this->params['breadcrumbs'][] = $tag['name'] ?? '';
                     'attribute' => 'link',
                     'format' => 'raw',
                     'label' => 'Ссылка',
-                    'value' => function($model) { return Html::a(Html::encode($model['link']), $model['link'], ['target' => '_blank']); }
+                    'value' => function ($model) {
+                        return Html::a(Html::encode($model['link']), $model['link'], ['target' => '_blank']);
+                    }
                 ],
                 'description:text:Описание',
             ],

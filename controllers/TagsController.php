@@ -14,7 +14,7 @@ class TagsController extends Controller
             't.id',
             't.name',
             'COUNT(t.id) AS count',
-            ])
+        ])
             ->from(['t' => 'tag'])
             ->innerJoin(['tc' => 'tag_channel'], 'tc.tag_id = t.id')
             ->innerJoin(['c' => 'channel'], 'c.id = tc.channel_id')
@@ -75,7 +75,7 @@ class TagsController extends Controller
         $dataProvider = new \yii\data\ArrayDataProvider([
             'allModels' => $models,
             'pagination' => ['pageSize' => 20],
-            'sort' => [ 'attributes' => ['id', 'link', 'description'] ],
+            'sort' => ['attributes' => ['id', 'link', 'description']],
         ]);
 
         return $this->render('view', [

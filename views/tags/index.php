@@ -4,7 +4,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\data\ArrayDataProvider;
 
 $this->title = 'Теги';
 $this->params['breadcrumbs'][] = $this->title;
@@ -15,14 +14,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if (isset($dataProvider)) : ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            'pager' => [ 'linkOptions' => ['style' => 'margin:0 8px;'] ],
+            'pager' => ['linkOptions' => ['style' => 'margin:0 8px;']],
             'columns' => [
                 ['attribute' => 'id', 'label' => 'ID'],
                 [
                     'attribute' => 'name',
                     'label' => 'Название',
                     'format' => 'raw',
-                    'value' => function($model) {
+                    'value' => function ($model) {
                         return Html::a(Html::encode($model['name']), ['tags/view', 'id' => $model['id']]);
                     }
                 ],
@@ -32,7 +31,4 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php else: ?>
         <p>Нет данных для отображения.</p>
     <?php endif; ?>
-
-    <p>Path to this view file:</p>
-    <code><?= __FILE__ ?></code>
 </div>

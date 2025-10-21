@@ -16,7 +16,7 @@ class ChannelsController extends Controller
             'c.description',
             't.id AS tag_id',
             't.name AS tag_name',
-            ])
+        ])
             ->from(['c' => 'channel'])
             ->innerJoin(['tc' => 'tag_channel'], 'c.id = tc.channel_id')
             ->innerJoin(['t' => 'tag'], 'tc.tag_id = t.id')
