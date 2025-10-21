@@ -16,6 +16,11 @@ use Yii;
  */
 class Channel extends \yii\db\ActiveRecord
 {
+    /**
+     * Virtual attribute for tag ids (used in forms)
+     * @var array
+     */
+    public $tagIds = [];
 
 
     /**
@@ -36,6 +41,7 @@ class Channel extends \yii\db\ActiveRecord
             [['link'], 'string', 'max' => 256],
             [['description'], 'string', 'max' => 1000],
             [['link'], 'unique'],
+            [['tagIds'], 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -69,6 +75,12 @@ class Channel extends \yii\db\ActiveRecord
     public function getTags()
     {
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])->viaTable('tag_channel', ['channel_id' => 'id']);
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->tagIds = array_map(function($tc) { return $tc->tag_id; }, $this->tagChannel);
     }
 
 }

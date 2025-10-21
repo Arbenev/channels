@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if (isset($dataProvider)) : ?>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
+            'pager' => [ 'linkOptions' => ['style' => 'margin:0 8px;'] ],
             'columns' => [
                 ['attribute' => 'id', 'label' => 'ID'],
                 [

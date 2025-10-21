@@ -15,6 +15,11 @@ use Yii;
  */
 class Article extends \yii\db\ActiveRecord
 {
+    /**
+     * Virtual attribute for tag ids (used in forms)
+     * @var array
+     */
+    public $tagIds = [];
 
 
     /**
@@ -34,6 +39,7 @@ class Article extends \yii\db\ActiveRecord
             [['url', 'title'], 'default', 'value' => null],
             [['url'], 'string', 'max' => 256],
             [['title'], 'string', 'max' => 100],
+            [['tagIds'], 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -57,6 +63,12 @@ class Article extends \yii\db\ActiveRecord
     public function getTagArticle()
     {
         return $this->hasMany(TagArticle::class, ['article_id' => 'id']);
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->tagIds = array_map(function($ta) { return $ta->tag_id; }, $this->tagArticle);
     }
 
 }
