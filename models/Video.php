@@ -5,34 +5,26 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "article".
+ * This is the model class for table "video".
  *
  * @property int $id
  * @property string|null $url
  * @property string|null $title
  *
- * @property TagArticle[] $tagArticle
+ * @property TagVideo[] $tagVideo
  */
-class Article extends \yii\db\ActiveRecord
+class Video extends \yii\db\ActiveRecord
 {
     /**
      * Virtual attribute for tag ids (used in forms)
      * @var array
      */
     public $tagIds = [];
-
-
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
-        return 'article';
+        return 'video';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -43,9 +35,6 @@ class Article extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -55,20 +44,15 @@ class Article extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[TagArticle]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTagArticle()
+    public function getTagVideo()
     {
-        return $this->hasMany(TagArticle::class, ['article_id' => 'id']);
+        return $this->hasMany(TagVideo::class, ['video_id' => 'id']);
     }
 
     public function afterFind()
     {
         parent::afterFind();
-        $this->tagIds = array_map(function($ta) { return $ta->tag_id; }, $this->tagArticle);
+        // populate tagIds from relation
+        $this->tagIds = array_map(function($tv) { return $tv->tag_id; }, $this->tagVideo);
     }
-
 }

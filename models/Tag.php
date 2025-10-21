@@ -34,6 +34,7 @@ class Tag extends \yii\db\ActiveRecord
         return [
             [['name'], 'default', 'value' => null],
             [['name'], 'string', 'max' => 32],
+            [['name'], 'unique'],
         ];
     }
 

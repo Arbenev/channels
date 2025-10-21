@@ -4,9 +4,24 @@ namespace app\controllers;
 
 use yii\db\Query;
 use yii\web\Controller;
+use Yii;
+use app\models\Tag;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 class TagsController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
     public function actionIndex()
     {
         $queryTags = new Query();
@@ -24,7 +39,7 @@ class TagsController extends Controller
 
         $dataProvider = new \yii\data\ArrayDataProvider([
             'allModels' => $tags,
-            'pagination' => ['pageSize' => 50],
+            'pagination' => ['pageSize' => 20],
             'sort' => [
                 'attributes' => ['id', 'name', 'count'],
             ],
@@ -82,5 +97,37 @@ class TagsController extends Controller
             'tag' => $tag,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionCreate()
+    {
+        $model = new Tag();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+        return $this->render('create', ['model' => $model]);
+    }
+
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+        return $this->render('update', ['model' => $model]);
+    }
+
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+        return $this->redirect(['index']);
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Tag::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested tag does not exist.');
     }
 }
