@@ -15,6 +15,11 @@ use Yii;
  */
 class Video extends \yii\db\ActiveRecord
 {
+    /**
+     * Virtual attribute for tag ids (used in forms)
+     * @var array
+     */
+    public $tagIds = [];
     public static function tableName()
     {
         return 'video';
@@ -26,6 +31,7 @@ class Video extends \yii\db\ActiveRecord
             [['url', 'title'], 'default', 'value' => null],
             [['url'], 'string', 'max' => 256],
             [['title'], 'string', 'max' => 100],
+            [['tagIds'], 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -41,5 +47,12 @@ class Video extends \yii\db\ActiveRecord
     public function getTagVideo()
     {
         return $this->hasMany(TagVideo::class, ['video_id' => 'id']);
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        // populate tagIds from relation
+        $this->tagIds = array_map(function($tv) { return $tv->tag_id; }, $this->tagVideo);
     }
 }
