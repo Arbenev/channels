@@ -80,20 +80,16 @@ class TagsController extends Controller
             ->where(['tc.tag_id' => $id])
             ->orderBy(['c.id' => SORT_ASC]);
 
-        $channels = $queryChannels->all();
+        // ActiveDataProvider for channels
+        $channelsQuery = \app\models\Channel::find()
+            ->alias('c')
+            ->select(['c.id', 'c.link', 'c.description'])
+            ->innerJoin(['tc' => 'tag_channel'], 'c.id = tc.channel_id')
+            ->where(['tc.tag_id' => $id])
+            ->orderBy(['c.id' => SORT_ASC]);
 
-        // Преобразуем для GridView: сделаем плоские модели с id, link, description
-        $channelModels = [];
-        foreach ($channels as $ch) {
-            $channelModels[] = [
-                'id' => $ch['channel_id'],
-                'link' => $ch['channel_link'],
-                'description' => $ch['description'],
-            ];
-        }
-
-        $channelsProvider = new \yii\data\ArrayDataProvider([
-            'allModels' => $channelModels,
+        $channelsProvider = new \yii\data\ActiveDataProvider([
+            'query' => $channelsQuery,
             'pagination' => ['pageSize' => 20],
             'sort' => ['attributes' => ['id', 'link', 'description']],
         ]);
@@ -110,18 +106,16 @@ class TagsController extends Controller
             ->where(['ta.tag_id' => $id])
             ->orderBy(['a.id' => SORT_ASC]);
 
-        $articles = $queryArticles->all();
-        $articleModels = [];
-        foreach ($articles as $ar) {
-            $articleModels[] = [
-                'id' => $ar['article_id'],
-                'title' => $ar['article_title'],
-                'url' => $ar['article_url'],
-            ];
-        }
+        // ActiveDataProvider for articles
+        $articlesQuery = \app\models\Article::find()
+            ->alias('a')
+            ->select(['a.id', 'a.title', 'a.url'])
+            ->innerJoin(['ta' => 'tag_article'], 'a.id = ta.article_id')
+            ->where(['ta.tag_id' => $id])
+            ->orderBy(['a.id' => SORT_ASC]);
 
-        $articlesProvider = new \yii\data\ArrayDataProvider([
-            'allModels' => $articleModels,
+        $articlesProvider = new \yii\data\ActiveDataProvider([
+            'query' => $articlesQuery,
             'pagination' => ['pageSize' => 20],
             'sort' => ['attributes' => ['id', 'title', 'url']],
         ]);
@@ -138,18 +132,16 @@ class TagsController extends Controller
             ->where(['tv.tag_id' => $id])
             ->orderBy(['v.id' => SORT_ASC]);
 
-        $videos = $queryVideos->all();
-        $videoModels = [];
-        foreach ($videos as $v) {
-            $videoModels[] = [
-                'id' => $v['video_id'],
-                'title' => $v['video_title'],
-                'url' => $v['video_url'],
-            ];
-        }
+        // ActiveDataProvider for videos
+        $videosQuery = \app\models\Video::find()
+            ->alias('v')
+            ->select(['v.id', 'v.title', 'v.url'])
+            ->innerJoin(['tv' => 'tag_video'], 'v.id = tv.video_id')
+            ->where(['tv.tag_id' => $id])
+            ->orderBy(['v.id' => SORT_ASC]);
 
-        $videosProvider = new \yii\data\ArrayDataProvider([
-            'allModels' => $videoModels,
+        $videosProvider = new \yii\data\ActiveDataProvider([
+            'query' => $videosQuery,
             'pagination' => ['pageSize' => 20],
             'sort' => ['attributes' => ['id', 'title', 'url']],
         ]);
