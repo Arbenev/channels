@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $tag['name'] ?? '';
         <?php if ($channelsProvider->getTotalCount() > 0): ?>
             <?= GridView::widget([
                 'dataProvider' => $channelsProvider,
+                'pager' => [ 'linkOptions' => ['style' => 'margin:0 8px;'] ],
                 'columns' => [
                     ['attribute' => 'id', 'label' => 'ID'],
                     [
@@ -42,6 +43,7 @@ $this->params['breadcrumbs'][] = $tag['name'] ?? '';
         <?php if ($articlesProvider->getTotalCount() > 0): ?>
             <?= GridView::widget([
                 'dataProvider' => $articlesProvider,
+                'pager' => [ 'linkOptions' => ['style' => 'margin:0 8px;'] ],
                 'columns' => [
                     ['attribute' => 'id', 'label' => 'ID'],
                     [
@@ -68,6 +70,7 @@ $this->params['breadcrumbs'][] = $tag['name'] ?? '';
         <?php if ($videosProvider->getTotalCount() > 0): ?>
             <?= GridView::widget([
                 'dataProvider' => $videosProvider,
+                'pager' => [ 'linkOptions' => ['style' => 'margin:0 8px;'] ],
                 'columns' => [
                     ['attribute' => 'id', 'label' => 'ID'],
                     [
