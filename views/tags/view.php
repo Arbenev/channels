@@ -14,9 +14,10 @@ $this->params['breadcrumbs'][] = $tag['name'] ?? '';
         <?= Html::a('Назад к тегам', ['index'], ['class' => 'btn btn-secondary']) ?>
     </p>
 
-    <?php if (isset($dataProvider)) : ?>
+    <?php if (isset($channelsProvider) && $channelsProvider->getCount()) : ?>
+        <h2>Каналы</h2>
         <?= GridView::widget([
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $channelsProvider,
             'columns' => [
                 ['attribute' => 'id', 'label' => 'ID'],
                 [
@@ -32,5 +33,53 @@ $this->params['breadcrumbs'][] = $tag['name'] ?? '';
         ]) ?>
     <?php else: ?>
         <p>Нет каналов для этого тега.</p>
+    <?php endif; ?>
+
+    <?php if (isset($articlesProvider) && $articlesProvider->getCount() > 0) : ?>
+        <h2>Статьи</h2>
+        <?= GridView::widget([
+            'dataProvider' => $articlesProvider,
+            'columns' => [
+                ['attribute' => 'id', 'label' => 'ID'],
+                [
+                    'attribute' => 'url',
+                    'format' => 'raw',
+                    'label' => 'Ссылка',
+                    'value' => function ($model) {
+                        return Html::a(Html::encode($model['url']), $model['url'], ['target' => '_blank']);
+                    }
+                ],
+                [
+                    'attribute' => 'title',
+                    'label' => 'Заголовок',
+                ],
+            ],
+        ]) ?>
+    <?php else: ?>
+        <p>Нет статей для этого тега.</p>
+    <?php endif; ?>
+
+    <?php if (isset($videosProvider) && $videosProvider->getCount() > 0) : ?>
+        <h2>Видео</h2>
+        <?= GridView::widget([
+            'dataProvider' => $videosProvider,
+            'columns' => [
+                ['attribute' => 'id', 'label' => 'ID'],
+                [
+                    'attribute' => 'url',
+                    'format' => 'raw',
+                    'label' => 'Ссылка',
+                    'value' => function ($model) {
+                        return Html::a(Html::encode($model['url']), $model['url'], ['target' => '_blank']);
+                    }
+                ],
+                [
+                    'attribute' => 'title',
+                    'label' => 'Заголовок',
+                ],
+            ],
+        ]) ?>
+    <?php else: ?>
+        <p>Нет видео для этого тега.</p>
     <?php endif; ?>
 </div>

@@ -83,24 +83,82 @@ class TagsController extends Controller
         $channels = $queryChannels->all();
 
         // Преобразуем для GridView: сделаем плоские модели с id, link, description
-        $models = [];
+        $channelModels = [];
         foreach ($channels as $ch) {
-            $models[] = [
+            $channelModels[] = [
                 'id' => $ch['channel_id'],
                 'link' => $ch['channel_link'],
                 'description' => $ch['description'],
             ];
         }
 
-        $dataProvider = new \yii\data\ArrayDataProvider([
-            'allModels' => $models,
+        $channelsProvider = new \yii\data\ArrayDataProvider([
+            'allModels' => $channelModels,
             'pagination' => ['pageSize' => 20],
             'sort' => ['attributes' => ['id', 'link', 'description']],
         ]);
 
+        // Получаем статьи, связанные с тегом
+        $queryArticles = new Query();
+        $queryArticles->select([
+            'a.id AS article_id',
+            'a.title AS article_title',
+            'a.url AS article_url',
+        ])
+            ->from(['a' => 'article'])
+            ->innerJoin(['ta' => 'tag_article'], 'a.id = ta.article_id')
+            ->where(['ta.tag_id' => $id])
+            ->orderBy(['a.id' => SORT_ASC]);
+
+        $articles = $queryArticles->all();
+        $articleModels = [];
+        foreach ($articles as $ar) {
+            $articleModels[] = [
+                'id' => $ar['article_id'],
+                'title' => $ar['article_title'],
+                'url' => $ar['article_url'],
+            ];
+        }
+
+        $articlesProvider = new \yii\data\ArrayDataProvider([
+            'allModels' => $articleModels,
+            'pagination' => ['pageSize' => 20],
+            'sort' => ['attributes' => ['id', 'title', 'url']],
+        ]);
+
+        // Получаем видео, связанные с тегом
+        $queryVideos = new Query();
+        $queryVideos->select([
+            'v.id AS video_id',
+            'v.title AS video_title',
+            'v.url AS video_url',
+        ])
+            ->from(['v' => 'video'])
+            ->innerJoin(['tv' => 'tag_video'], 'v.id = tv.video_id')
+            ->where(['tv.tag_id' => $id])
+            ->orderBy(['v.id' => SORT_ASC]);
+
+        $videos = $queryVideos->all();
+        $videoModels = [];
+        foreach ($videos as $v) {
+            $videoModels[] = [
+                'id' => $v['video_id'],
+                'title' => $v['video_title'],
+                'url' => $v['video_url'],
+            ];
+        }
+
+        $videosProvider = new \yii\data\ArrayDataProvider([
+            'allModels' => $videoModels,
+            'pagination' => ['pageSize' => 20],
+            'sort' => ['attributes' => ['id', 'title', 'url']],
+        ]);
+
         return $this->render('view', [
             'tag' => $tag,
-            'dataProvider' => $dataProvider,
+            'channelsProvider' => $channelsProvider,
+            'articlesProvider' => $articlesProvider,
+            'videosProvider' => $videosProvider,
         ]);
     }
 
