@@ -28,7 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a(Html::encode($model['name']), ['tags/view', 'id' => $model['id']]);
                     }
                 ],
-                ['attribute' => 'count', 'label' => 'Количество каналов'],
+                ['attribute' => 'channels_count', 'label' => 'Каналов'],
+                ['attribute' => 'articles_count', 'label' => 'Статей'],
+                ['attribute' => 'videos_count', 'label' => 'Видео'],
                 [
                     'class' => 'yii\\grid\\ActionColumn',
                     'header' => 'Действия',

@@ -25,23 +25,28 @@ class TagsController extends Controller
     public function actionIndex()
     {
         $queryTags = new Query();
+        // Select tag and counts from related pivot tables
         $queryTags->select([
             't.id',
             't.name',
-            'COUNT(t.id) AS count',
+            // subqueries for counts with aliases
+                'channels_count' => new \yii\db\Expression('COUNT(DISTINCT tc.channel_id)'),
+                'articles_count' => new \yii\db\Expression('COUNT(DISTINCT ta.article_id)'),
+                'videos_count' => new \yii\db\Expression('COUNT(DISTINCT tv.video_id)'),
         ])
             ->from(['t' => 'tag'])
-            ->innerJoin(['tc' => 'tag_channel'], 'tc.tag_id = t.id')
-            ->innerJoin(['c' => 'channel'], 'c.id = tc.channel_id')
-            ->groupBy(['t.id', 't.name'])
-            ->orderBy(['id' => SORT_ASC]);
+                ->leftJoin(['tc' => 'tag_channel'], 'tc.tag_id = t.id')
+                ->leftJoin(['ta' => 'tag_article'], 'ta.tag_id = t.id')
+                ->leftJoin(['tv' => 'tag_video'], 'tv.tag_id = t.id')
+                ->groupBy(['t.id', 't.name']);
         $tags = $queryTags->all();
 
         $dataProvider = new \yii\data\ArrayDataProvider([
             'allModels' => $tags,
             'pagination' => ['pageSize' => 20],
             'sort' => [
-                'attributes' => ['id', 'name', 'count'],
+                'attributes' => ['id', 'name', 'channels_count', 'articles_count', 'videos_count'],
+                'defaultOrder' => ['name' => SORT_ASC],
             ],
         ]);
 
